@@ -25,16 +25,24 @@ class Primary_Category {
 	}
 
 	public function admin_ajax_primary_category_query() {
-		$results = [
+		$term = filter_input( INPUT_GET, 'term', FILTER_SANITIZE_STRING );
+		$results = [];
+
+		$terms = get_terms(
 			[
-				'id' => 1,
-				'text' => 'Lifestyle',
-			],
-			[
-				'id' => 2,
-				'text' => 'Home',
-			],
-		];
+				'taxonomy' => 'category',
+				'search' => $term,
+			]
+		);
+
+		foreach ( $terms as $term ) {
+			$result = [
+				'id' => $term->term_taxonomy_id,
+				'text' => $term->name,
+			];
+
+			$results[] = $result;
+		}
 
 		$categories = new \stdClass();
 		$categories->results = $results;
