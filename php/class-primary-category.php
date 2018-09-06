@@ -6,6 +6,8 @@ class Primary_Category {
 	const NONCE = 'primary-category-search';
 
 	/**
+	 * This action enqueues all of the CSS and JavaScript dependencies for this plugin
+	 *
 	 * @action admin_enqueue_scripts
 	 */
 	public function admin_enqueue_scripts() : void {
@@ -17,6 +19,7 @@ class Primary_Category {
 
 	/**
 	 * Add the Primary Category meta box
+	 *
 	 * @param \WP_Post $post
 	 */
 	public function add_meta_box( \WP_Post $post ) : void {
@@ -86,6 +89,10 @@ class Primary_Category {
 	}
 
 	/**
+	 * Process the primary category, the value comes from the meta box select field
+	 *
+	 * This runs on the WordPress save_post action so we get nonce checking for free
+	 *
 	 * @action save_post
 	 */
 	public function process_primary_category() : void {
@@ -111,7 +118,7 @@ class Primary_Category {
 	/**
 	 * Render the Primary Category meta box
 	 *
-	 * Since its messy to mix PHP with HTML inside classes, the view code is in a seperate view file
+	 * Since its messy to mix PHP with HTML inside classes, the view code is in a seperate view file, views/meta-box-primary-category.php
 	 */
 	public function render_primary_category_meta_box( $post ) : void {
 		/**
