@@ -2,6 +2,7 @@
 namespace Robbie_Cahill\Primary_Category;
 
 class Primary_Category {
+	const ASSETS_VERSION = '0.0.1';
 
 	/**
 	 * @action admin_enqueue_scripts
@@ -9,8 +10,8 @@ class Primary_Category {
 	public function admin_enqueue_scripts() : void {
 		wp_enqueue_style( 'select2-css', plugin_dir_url( __FILE__ ) . '../node_modules/select2/dist/css/select2.css' );
 		wp_enqueue_style( 'primary-category-for-posts-css', plugin_dir_url( __FILE__ ) . '../assets/css/primary-category.css' );
-		wp_enqueue_script( 'select2', plugin_dir_url( __FILE__ ) . '../node_modules/select2/dist/js/select2.full.js', [ 'jquery' ], '0.0.1', true );
-		wp_enqueue_script( 'primary-category-for-posts', plugin_dir_url( __FILE__ ) . '../assets/js/primary-category.js', [ 'select2', 'jquery' ], '0.0.1', true );
+		wp_enqueue_script( 'select2', plugin_dir_url( __FILE__ ) . '../node_modules/select2/dist/js/select2.full.js', [ 'jquery' ], self::ASSETS_VERSION, true );
+		wp_enqueue_script( 'primary-category-for-posts', plugin_dir_url( __FILE__ ) . '../assets/js/primary-category.js', [ 'select2', 'jquery' ], self::ASSETS_VERSION, true );
 	}
 
 	/**
