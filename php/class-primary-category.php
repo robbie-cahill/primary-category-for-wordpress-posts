@@ -22,7 +22,7 @@ class Primary_Category {
 	public function add_meta_box( \WP_Post $post ) : void {
 		add_meta_box(
 			'primary-category-meta-box',
-			'Primary Category',
+			__( 'Primary Category', 'primary-category-for-posts' ),
 			[ $this, 'render_primary_category_meta_box' ],
 			'post',
 			'normal',
@@ -100,7 +100,8 @@ class Primary_Category {
 		 * I chose to store a primary category id inside post_meta
 		 * Why didn't use a custom taxonomy?
 		 * This is going to be queried from the frontend, which potentially means hundreds of millions of tax_queries if I use a custom taxonomy
-		 * A tax_query involves a table join of multiple tables in the background
+		 * A tax_query involves a table join of multiple tables in the background. WordPress.com VIP coding standards flag them by default as possible slow queries.
+		 * Even if caching is put around a tax_query a simple post_meta query will still be faster
 		 * A simple meta_query is going to be way faster over hundreds of millions of requests as only a single table needs to be queried
 		 * Literally "SELECT post_id from wp_<blog_id>_post_meta WHERE meta_name='primary_category' AND meta_value=1"
 		 */
@@ -117,7 +118,8 @@ class Primary_Category {
 		 * I chose to store a primary category id inside post_meta
 		 * Why didn't use a custom taxonomy?
 		 * This is going to be queried from the frontend, which potentially means hundreds of millions of tax_queries if I use a custom taxonomy
-		 * A tax_query involves a table join of multiple tables in the background
+		 * A tax_query involves a table join of multiple tables in the background. WordPress.com VIP coding standards flag them by default as possible slow queries.
+		 * Even if caching is put around a tax_query a simple post_meta query will still be faster
 		 * A simple meta_query is going to be way faster over hundreds of millions of requests as only a single table needs to be queried
 		 * Literally "SELECT post_id from wp_<blog_id>_post_meta WHERE meta_name='primary_category' AND meta_value=1"
 		 */
