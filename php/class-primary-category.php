@@ -50,7 +50,37 @@ class Primary_Category {
 		wp_send_json( $categories );
 	}
 
-	public function render_primary_category_meta_box() {
+	/**
+	 * @action save_post
+	 */
+	public function process_primary_category() {
+		$post_id = intval( filter_input( INPUT_POST, 'post_ID', FILTER_SANITIZE_NUMBER_INT ) );
+		$primary_category = intval( filter_input( INPUT_POST, 'primary-category', FILTER_SANITIZE_NUMBER_INT ) );
+
+		if ( 0 === $primary_category || 0 === $post_id ) {
+			return true;
+		}
+
+		update_post_meta( $post_id, 'primary_category', $primary_category );
+	}
+
+	public function render_primary_category_meta_box( $post ) {
+		$primary_category = get_post_meta( $post->ID, 'primary_category', true );
+		$term_id = null;
+
+		if ( $primary_category ) {
+			$terms = get_terms(
+				[
+					'taxonomy' => 'category',
+					'term_taxonomy_id' => $primary_category,
+				]
+			);
+
+			if ( isset( $terms[0] ) ) {
+				$term = $terms[0];
+			}
+		}
+
 		require __DIR__ . '/views/meta-box-primary-category.php';
 	}
 }

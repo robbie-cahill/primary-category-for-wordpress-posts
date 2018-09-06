@@ -16,3 +16,4 @@ $primary_category = new Primary_Category();
 add_action( 'admin_enqueue_scripts', [ $primary_category, 'admin_enqueue_scripts' ] );
 add_action( 'add_meta_boxes_post', [ $primary_category, 'add_meta_box' ] );
 add_action( 'wp_ajax_primary_category_query', [ $primary_category, 'admin_ajax_primary_category_query' ] );
+add_action( 'save_post', [ $primary_category, 'process_primary_category' ] );
