@@ -9,6 +9,10 @@ namespace Robbie_Cahill\Primary_Category;
 
 require __DIR__ . '/php/class-primary-category.php';
 
+/**
+ * Register hooks. The Primary_Category class has no knowledge of the WordPress hooks system
+ */
 $primary_category = new Primary_Category();
-add_action( 'admin_init', [ $primary_category, 'admin_init' ] );
-add_action( 'add_meta_boxes_post', [ $primary_category, 'adding_custom_meta_boxes' ] );
+add_action( 'admin_enqueue_scripts', [ $primary_category, 'admin_enqueue_scripts' ] );
+add_action( 'add_meta_boxes_post', [ $primary_category, 'add_meta_box' ] );
+add_action( 'wp_ajax_primary_category_query', [ $primary_category, 'admin_ajax_primary_category_query' ] );
