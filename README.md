@@ -13,7 +13,7 @@ Requirements
 ---
 WordPress 4.9 and up
 PHP 7.2 and up. This is required for the `void` and scalar return types the functions in this project use
-
+The latest versions of NodeJS and NPM
 
 Coding Standards
 ---
