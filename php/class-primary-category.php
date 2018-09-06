@@ -27,8 +27,12 @@ class Primary_Category {
 	public function admin_ajax_primary_category_query() {
 		$name = filter_input( INPUT_GET, 'term', FILTER_SANITIZE_STRING ); // Select2 sends "term" for the search query by default
 
+		/**
+		 * Return an empty reponse if the lenght of the queried name is under 2 characters or if non alphabetical characters are sent
+		 */
 		if (
-			strlen( $name ) < 2
+			strlen( $name ) < 2 ||
+			! preg_match( '/^[a-zA-Z]+$/', $name )
 		) {
 			wp_send_json( [] );
 		}
