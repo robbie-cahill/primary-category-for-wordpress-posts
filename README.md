@@ -6,8 +6,7 @@ This plugin would be useful for a media site where you need to list all posts ba
 
 Getting Started
 ---
-Clone this repo, drop the folder into your WordPress `plugins` folder
-Run `npm install` to grab the JavaScript dependencies
+Clone this repo, drop the folder into your WordPress `plugins` folder, then run `npm install` to grab the JavaScript dependencies
 
 Requirements
 ---
