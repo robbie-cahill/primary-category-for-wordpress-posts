@@ -1,5 +1,5 @@
 <?php
-namespace TenUp\Primary_Category;
+namespace Robbie_Cahill\Primary_Category;
 /*
  * Plugin Name: Primary Category For Posts
  * Description: Set a Primary Category for your posts. Whats that? WordPress doesn't come with Primary Cateogries? No worries!

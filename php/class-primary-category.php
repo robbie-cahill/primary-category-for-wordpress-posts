@@ -1,5 +1,5 @@
 <?php
-namespace TenUp\Primary_Category;
+namespace Robbie_Cahill\Primary_Category;
 
 class Primary_Category {
 
@@ -22,6 +22,6 @@ class Primary_Category {
 	}
 
 	public function render_primary_category_meta_box() {
-		echo 'TEST';
+		require __DIR__ . '/views/meta-box-primary-category.php';
 	}
 }
