@@ -3,6 +3,7 @@ namespace Robbie_Cahill\Primary_Category;
 
 class Primary_Category {
 	const ASSETS_VERSION = '0.0.1';
+	const NONCE = 'primary-category-search';
 
 	/**
 	 * @action admin_enqueue_scripts
@@ -32,16 +33,18 @@ class Primary_Category {
 	/**
 	 * Select2 compatible AJAX query. Queries categories using the 'term' query var sent by Select2
 	 *
-	 * For smart people who know how to pull of a CSRF attack, this will give you a nice read only list of categories that are going to be public anyway on the front end
-	 * Because the categories are public information, I chose not to add nonce verification here.
-	 * This makes Select2's live search alot faster as a new nonce would have to be generated on each keypress.
-	 *
 	 * For usability purposes, I'm allowing all categories to come back as results, not just categories that are selected for this post
 	 * This makes selecting a primary category a one step process
 	 * The user will only have to publish the post once after selecting a category and primary category, not select a category, then publish, select a primary category then publish again.
 	 */
 	public function admin_ajax_primary_category_query() : void {
+		$nonce = filter_input( INPUT_GET, '_wpnonce', FILTER_SANITIZE_STRING );
 		$name = filter_input( INPUT_GET, 'term', FILTER_SANITIZE_STRING ); // Select2 sends "term" for the search query by default
+
+		if ( false === wp_verify_nonce( $nonce, self::NONCE ) ) {
+			http_response_code( 401 );
+			wp_send_json( [ 'You are not authorized to perform this action' ] );
+		}
 
 		/**
 		 * Return an empty reponse if the lenght of the queried name is under 2 characters or if non alphabetical characters are sent
@@ -118,6 +121,7 @@ class Primary_Category {
 		 * A simple meta_query is going to be way faster over hundreds of millions of requests as only a single table needs to be queried
 		 * Literally "SELECT post_id from wp_<blog_id>_post_meta WHERE meta_name='primary_category' AND meta_value=1"
 		 */
+		$nonce = wp_create_nonce( self::NONCE );
 		$primary_category = get_post_meta( $post->ID, 'primary_category', true );
 		$term_id = null;
 
