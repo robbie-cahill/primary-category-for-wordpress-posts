@@ -1,6 +1,6 @@
 Primary Category for Posts
 ---
-This plugin will add a magic meta box to your edit post page that will allow you to set a Primary Category for your posts. This is down via a searchable dropdown that uses AJAX in the background to get results.
+This plugin will add a magic meta box to your edit post page that will allow you to set a Primary Category for your posts. This is done via a searchable dropdown that uses AJAX in the background to get results.
 
 This plugin would be useful for a media site where you need to list all posts based on their primary category alone inside your theme.
 
