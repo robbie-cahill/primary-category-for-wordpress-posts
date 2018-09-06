@@ -88,6 +88,14 @@ class Primary_Category {
 			return;
 		}
 
+		/**
+		 * I chose to store a primary category id inside post_meta
+		 * Why didn't use a custom taxonomy?
+		 * This is going to be queried from the frontend, which potentially means hundreds of millions of tax_queries if I use a custom taxonomy
+		 * A tax_query involves a table join of multiple tables in the background
+		 * A simple meta_query is going to be way faster over hundreds of millions of requests as only a single table needs to be queried
+		 * Literally "SELECT post_id from wp_<blog_id>_post_meta WHERE meta_name='primary_category' AND meta_value=1"
+		 */
 		update_post_meta( $post_id, 'primary_category', $primary_category );
 	}
 
@@ -97,6 +105,14 @@ class Primary_Category {
 	 * Since its messy to mix PHP with HTML inside classes, the view code is in a seperate view file
 	 */
 	public function render_primary_category_meta_box( $post ) : void {
+		/**
+		 * I chose to store a primary category id inside post_meta
+		 * Why didn't use a custom taxonomy?
+		 * This is going to be queried from the frontend, which potentially means hundreds of millions of tax_queries if I use a custom taxonomy
+		 * A tax_query involves a table join of multiple tables in the background
+		 * A simple meta_query is going to be way faster over hundreds of millions of requests as only a single table needs to be queried
+		 * Literally "SELECT post_id from wp_<blog_id>_post_meta WHERE meta_name='primary_category' AND meta_value=1"
+		 */
 		$primary_category = get_post_meta( $post->ID, 'primary_category', true );
 		$term_id = null;
 
