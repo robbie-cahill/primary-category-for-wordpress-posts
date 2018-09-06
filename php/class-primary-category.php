@@ -25,13 +25,20 @@ class Primary_Category {
 	}
 
 	public function admin_ajax_primary_category_query() {
-		$term = filter_input( INPUT_GET, 'term', FILTER_SANITIZE_STRING );
+		$name = filter_input( INPUT_GET, 'term', FILTER_SANITIZE_STRING ); // Select2 sends "term" for the search query by default
+
+		if (
+			strlen( $name ) < 2
+		) {
+			wp_send_json( [] );
+		}
+
 		$results = [];
 
 		$terms = get_terms(
 			[
 				'taxonomy' => 'category',
-				'search' => $term,
+				'search' => $name,
 			]
 		);
 
