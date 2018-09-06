@@ -9,6 +9,11 @@ Getting Started
 Clone this repo, drop the folder into your WordPress `plugins` folder
 Run `npm install` to grab the JavaScript dependencies
 
+Requirements
+---
+WordPress 4.9 and up
+PHP 7.2 and up. This is required for the `void` and scalar return types the functions in this project use
+
 
 Coding Standards
 ---
