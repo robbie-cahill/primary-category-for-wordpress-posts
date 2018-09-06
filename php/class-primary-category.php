@@ -13,7 +13,11 @@ class Primary_Category {
 		wp_enqueue_script( 'primary-category-for-posts', plugin_dir_url( __FILE__ ) . '../assets/js/primary-category.js', [ 'select2', 'jquery' ], '0.0.1', true );
 	}
 
-	public function add_meta_box( $post ) : void {
+	/**
+	 * Add the Primary Category meta box
+	 * @param \WP_Post $post
+	 */
+	public function add_meta_box( \WP_Post $post ) : void {
 		add_meta_box(
 			'primary-category-meta-box',
 			'Primary Category',
@@ -24,6 +28,9 @@ class Primary_Category {
 		);
 	}
 
+	/**
+	 * Select2 compatible AJAX query. Queries categories using the 'term' query var sent by Select2
+	 */
 	public function admin_ajax_primary_category_query() : void {
 		$name = filter_input( INPUT_GET, 'term', FILTER_SANITIZE_STRING ); // Select2 sends "term" for the search query by default
 
@@ -75,6 +82,11 @@ class Primary_Category {
 		update_post_meta( $post_id, 'primary_category', $primary_category );
 	}
 
+	/**
+	 * Render the Primary Category meta box
+	 *
+	 * Since its messy to mix PHP with HTML inside classes, the view code is in a seperate view file
+	 */
 	public function render_primary_category_meta_box( $post ) : void {
 		$primary_category = get_post_meta( $post->ID, 'primary_category', true );
 		$term_id = null;
