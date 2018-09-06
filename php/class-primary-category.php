@@ -3,7 +3,7 @@ namespace Robbie_Cahill\Primary_Category;
 
 class Primary_Category {
 	const ASSETS_VERSION = '0.0.1';
-	const NONCE = 'primary-category-search';
+	const NONCE          = 'primary-category-search';
 
 	/**
 	 * This action enqueues all of the CSS and JavaScript dependencies for this plugin
@@ -42,7 +42,7 @@ class Primary_Category {
 	 */
 	public function admin_ajax_primary_category_query() : void {
 		$nonce = filter_input( INPUT_GET, '_wpnonce', FILTER_SANITIZE_STRING );
-		$name = filter_input( INPUT_GET, 'term', FILTER_SANITIZE_STRING ); // Select2 sends "term" for the search query by default
+		$name  = filter_input( INPUT_GET, 'term', FILTER_SANITIZE_STRING ); // Select2 sends "term" for the search query by default
 
 		if ( false === wp_verify_nonce( $nonce, self::NONCE ) ) {
 			http_response_code( 401 );
@@ -69,20 +69,20 @@ class Primary_Category {
 		$terms = get_terms(
 			[
 				'taxonomy' => 'category',
-				'search' => $name,
+				'search'   => $name,
 			]
 		);
 
 		foreach ( $terms as $term ) {
 			$result = [
-				'id' => $term->term_taxonomy_id,
+				'id'   => $term->term_taxonomy_id,
 				'text' => $term->name,
 			];
 
 			$results[] = $result;
 		}
 
-		$categories = new \stdClass();
+		$categories          = new \stdClass();
 		$categories->results = $results;
 
 		wp_send_json( $categories );
@@ -96,7 +96,7 @@ class Primary_Category {
 	 * @action save_post
 	 */
 	public function process_primary_category() : void {
-		$post_id = intval( filter_input( INPUT_POST, 'post_ID', FILTER_SANITIZE_NUMBER_INT ) );
+		$post_id          = intval( filter_input( INPUT_POST, 'post_ID', FILTER_SANITIZE_NUMBER_INT ) );
 		$primary_category = intval( filter_input( INPUT_POST, 'primary-category', FILTER_SANITIZE_NUMBER_INT ) );
 
 		if ( 0 === $primary_category || 0 === $post_id ) {
@@ -130,14 +130,14 @@ class Primary_Category {
 		 * A simple meta_query is going to be way faster over hundreds of millions of requests as only a single table needs to be queried
 		 * Literally "SELECT post_id from wp_<blog_id>_post_meta WHERE meta_name='primary_category' AND meta_value=1"
 		 */
-		$nonce = wp_create_nonce( self::NONCE );
+		$nonce            = wp_create_nonce( self::NONCE );
 		$primary_category = get_post_meta( $post->ID, 'primary_category', true );
-		$term_id = null;
+		$term_id          = null;
 
 		if ( $primary_category ) {
 			$terms = get_terms(
 				[
-					'taxonomy' => 'category',
+					'taxonomy'         => 'category',
 					'term_taxonomy_id' => $primary_category,
 				]
 			);
