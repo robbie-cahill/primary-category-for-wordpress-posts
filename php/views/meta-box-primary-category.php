@@ -1,8 +1,10 @@
 <?php
-    /**
-     * @var $primary_category
-     * @var $term
-     */
+namespace Robbie_Cahill\Primary_Category;
+
+/**
+ * @var $primary_category
+ * @var $term
+ */
 ?>
 <select name="primary-category" class="primary-category">
     <?php if ( $term ): ?>
