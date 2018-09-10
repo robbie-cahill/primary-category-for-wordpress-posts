@@ -1,6 +1,14 @@
 <?php
+/**
+ * @package Primary_Category
+ * Author: Robbie Cahill
+ */
+
 namespace Robbie_Cahill\Primary_Category;
 
+/**
+ * Primary Category class
+ */
 class Primary_Category {
 	const ASSETS_VERSION = '0.0.1';
 	const NONCE          = 'primary-category-search';
@@ -11,8 +19,8 @@ class Primary_Category {
 	 * @action admin_enqueue_scripts
 	 */
 	public function admin_enqueue_scripts() : void {
-		wp_enqueue_style( 'select2-css', plugin_dir_url( __FILE__ ) . '../node_modules/select2/dist/css/select2.css' );
-		wp_enqueue_style( 'primary-category-for-posts-css', plugin_dir_url( __FILE__ ) . '../assets/css/primary-category.css' );
+		wp_enqueue_style( 'select2-css', plugin_dir_url( __FILE__ ) . '../node_modules/select2/dist/css/select2.css', [], self::ASSETS_VERSION );
+		wp_enqueue_style( 'primary-category-for-posts-css', plugin_dir_url( __FILE__ ) . '../assets/css/primary-category.css', [], self::ASSETS_VERSION );
 		wp_enqueue_script( 'select2', plugin_dir_url( __FILE__ ) . '../node_modules/select2/dist/js/select2.full.js', [ 'jquery' ], self::ASSETS_VERSION, true );
 		wp_enqueue_script( 'primary-category-for-posts', plugin_dir_url( __FILE__ ) . '../assets/js/primary-category.js', [ 'select2', 'jquery' ], self::ASSETS_VERSION, true );
 	}
@@ -20,7 +28,7 @@ class Primary_Category {
 	/**
 	 * Add the Primary Category meta box
 	 *
-	 * @param \WP_Post $post
+	 * @param \WP_Post $post Post injected by WordPress.
 	 */
 	public function add_meta_box( \WP_Post $post ) : void {
 		add_meta_box(
@@ -42,7 +50,7 @@ class Primary_Category {
 	 */
 	public function admin_ajax_primary_category_query() : void {
 		$nonce = filter_input( INPUT_GET, '_wpnonce', FILTER_SANITIZE_STRING );
-		$name  = filter_input( INPUT_GET, 'term', FILTER_SANITIZE_STRING ); // Select2 sends "term" for the search query by default
+		$name  = filter_input( INPUT_GET, 'term', FILTER_SANITIZE_STRING ); // Select2 sends "term" for the search query by default.
 
 		if ( false === wp_verify_nonce( $nonce, self::NONCE ) ) {
 			http_response_code( 401 );
@@ -119,8 +127,10 @@ class Primary_Category {
 	 * Render the Primary Category meta box
 	 *
 	 * Since its messy to mix PHP with HTML inside classes, the view code is in a seperate view file, views/meta-box-primary-category.php
+	 *
+	 * @param \WP_Post $post The post being edited.
 	 */
-	public function render_primary_category_meta_box( $post ) : void {
+	public function render_primary_category_meta_box( \WP_Post $post ) : void {
 		/**
 		 * I chose to store a primary category id inside post_meta
 		 * Why didn't use a custom taxonomy?
@@ -130,9 +140,11 @@ class Primary_Category {
 		 * A simple meta_query is going to be way faster over hundreds of millions of requests as only a single table needs to be queried
 		 * Literally "SELECT post_id from wp_<blog_id>_post_meta WHERE meta_name='primary_category' AND meta_value=1"
 		 */
-		$nonce            = wp_create_nonce( self::NONCE );
+
+		// Template variables - PHPCS can't see that they are used in the view.
+		$nonce            = wp_create_nonce( self::NONCE ); // phpcs:ignore
 		$primary_category = get_post_meta( $post->ID, 'primary_category', true );
-		$term_id          = null;
+		$term_id          = null; // phpcs:ignore
 
 		if ( $primary_category ) {
 			$terms = get_terms(
@@ -143,7 +155,8 @@ class Primary_Category {
 			);
 
 			if ( isset( $terms[0] ) ) {
-				$term = $terms[0];
+				// Template variable.
+				$term = $terms[0]; // phpcs:ignore
 			}
 		}
 
