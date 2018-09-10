@@ -1,5 +1,7 @@
 <?php
 /**
+ * Main plugin class for the Primary Category plugin
+ *
  * @package Primary_Category
  * Author: Robbie Cahill
  */

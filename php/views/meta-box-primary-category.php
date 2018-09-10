@@ -1,5 +1,7 @@
 <?php
 /**
+ * Meta box to select the primary category on the edit posts screen
+ *
  * @package Primary_Category
  * @var $primary_category
  * @var $term
