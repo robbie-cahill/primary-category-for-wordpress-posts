@@ -13,7 +13,7 @@ namespace Robbie_Cahill\Primary_Category;
 ?>
 <input type="hidden" id="primary-category-nonce" value="<?php echo esc_attr( $nonce ); ?>">
 <select name="primary-category" class="primary-category">
-	<?php if ( $term ) : ?>
-			<option id="<?php echo esc_attr( $term->term_id ); ?> selected="selected"><?php echo esc_html( $term->name ); ?></option>
+	<?php if ( ! empty( $term ) ) : ?>
+		<option id="<?php echo absint( $term->term_id ); ?>" selected="selected"><?php echo esc_html( $term->name ); ?></option>
 	<?php endif ?>
 </select>
